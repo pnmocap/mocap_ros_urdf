@@ -31,7 +31,7 @@
 
 **功能**：python 实现的动捕数据 ROS Publisher节点，解析BVH 数据并发布 ROS 关节控制指令。
 
- **源码：**
+**源码**：
 
 ~~~
 https://github.com/pnmocap/mocap_ros_py.git
@@ -39,9 +39,9 @@ https://github.com/pnmocap/mocap_ros_py.git
 
 ### mocap_ros_cpp
 
-**功能：**C++   实现的动捕数据 ROS Publisher节点，解析BVH 数据并发布 ROS 关节控制指令。
+**功能**：C++   实现的动捕数据 ROS Publisher节点，解析BVH 数据并发布 ROS 关节控制指令。
 
-**源码:**
+**源码**:
 
 ~~~
 https://github.com/pnmocap/mocap_ros_cpp.git
