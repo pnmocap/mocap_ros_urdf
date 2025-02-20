@@ -6,18 +6,18 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    # 获取 ros_gz_sim 包的路径
+    # get ros_gz_sim package path
     ros_gz_sim_share_dir = get_package_share_directory('ros_gz_sim')
     unitree_h1_ros2_share_dir = get_package_share_directory('unitree_h1_ros2')
 
-    # 定义参数
+    # parameters
     paused_arg = DeclareLaunchArgument(
         'paused',
         default_value='false',
         description='Whether to start the simulation paused'
     )
 
-    # 包含 Gazebo 的空世界启动文件
+    # empty_world.launch.py in Gazebo
     gazebo_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(ros_gz_sim_share_dir, 'launch', 'gz_sim.launch.py')
@@ -27,7 +27,7 @@ def generate_launch_description():
         }.items()
     )
 
-    # 启动 spawn_entity 节点
+    # launch spawn_model node
     spawn_model_node = Node(
         package='ros_gz_sim',
         executable='create',
