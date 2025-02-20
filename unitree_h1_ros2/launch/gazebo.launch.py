@@ -7,18 +7,18 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    # 获取 gazebo_ros 包的路径
+    # get gazebo_ros package path
     gazebo_ros_share_dir = get_package_share_directory('gazebo_ros')
     h1_description_share_dir = get_package_share_directory('h1_description')
 
-    # 定义参数
+    # parameters
     paused_arg = DeclareLaunchArgument(
         'paused',
         default_value='true',
         description='Whether to start the simulation paused'
     )
 
-    # 包含 Gazebo 的 empty_world.launch.py 文件
+    # empty_world.launch.py in Gazebo
     gazebo_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(gazebo_ros_share_dir, 'launch', 'empty_world.launch.py')
@@ -28,7 +28,7 @@ def generate_launch_description():
         }.items()
     )
 
-    # 启动 spawn_model 节点
+    # launch spawn_model node
     spawn_model_node = Node(
         package='gazebo_ros',
         executable='spawn_entity.py',

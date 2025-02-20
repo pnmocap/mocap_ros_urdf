@@ -7,22 +7,22 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 
-# generate_launch_description() 函数是入口点，用于生成 LaunchDescription 对象，描述了启动的节点及其参数。
-# FindPackageShare 类用于查找指定包的共享目录，以便获取该包中的资源文件。在这里，它用于获取机器人描述包（roobot_description）的共享目录路径。
-# LaunchDescription 对象用于存储要启动的节点及其参数。
+# The generate_launch_description() function serves as the entry point and is used to generate a LaunchDescription object, which describes the nodes to be launched and their parameters.
+# The FindPackageShare class is used to locate the shared directory of a specified package. Here, it is employed to obtain the path of the shared directory of the robot description package (roobot_description).
+# The LaunchDescription object is used to store the nodes to be launched and their parameters.
 
-# 其中涉及三个节点
-# joint_state_publisher_gui 负责发布机器人关节数据信息，通过joint_states话题发布
-# robot_state_publisher_node负责发布机器人模型信息robot_description，并将joint_states数据转换tf信息发布
-# rviz2_node负责显示机器人的信息
-# 最终，通过调用 ld.add_action() 将这些节点添加到 LaunchDescription 对象中，并将其返回，以便由 ROS 2 的启动系统加载并执行。
-# joint_state_publisher_gui，还有一个兄弟叫做joint_state_publisher   两者区别在于joint_state_publisher_gui运行起来会跳出一个界面，通过界面可以操作URDF中能动的关节
+# Three nodes involved:
+# joint_state_publisher_gui: is responsible for publishing the robot joint data information, which is published through the joint_states topic.
+# robot_state_publisher_node: is responsible for publishing the robot model information robot_description and converting the joint_states data into TF information for publication.
+# rviz2_node: is responsible for displaying the information of the robot.
 
+# Finally, by calling ld.add_action(), these nodes are added to the LaunchDescription object, and the object is returned so that it can be loaded and executed by the ROS 2 launch system.
+# Regarding joint_state_publisher_gui, it has a "sibling" named joint_state_publisher. The difference between the two is that when joint_state_publisher_gui is running, an interface will pop up. Through this interface, the movable joints in the URDF can be operated.
 
 
 def generate_launch_description():
     # Get the launch directory
-    bringup_dir = get_package_share_directory('unitree_h1_ros2')  #需要修改的地方:robot_description 修改为对应的功能包名称
+    bringup_dir = get_package_share_directory('unitree_h1_ros2') # package name
     launch_dir = os.path.join(bringup_dir, 'launch')
 
     # Launch configuration variables specific to simulation
@@ -30,12 +30,12 @@ def generate_launch_description():
     use_robot_state_pub = LaunchConfiguration('use_robot_state_pub')
     use_joint_state_pub = LaunchConfiguration('use_joint_state_pub')
     use_rviz = LaunchConfiguration('use_rviz')
-    urdf_file= LaunchConfiguration('urdf_file')
-    
+    urdf_file = LaunchConfiguration('urdf_file')
+
     declare_rviz_config_file_cmd = DeclareLaunchArgument(
         'rviz_config_file',
-        default_value=os.path.join(bringup_dir, 'rviz', 'rviz.rviz'), 
-        description='Full path to the RVIZ config file to use')  
+        default_value=os.path.join(bringup_dir, 'rviz', 'rviz.rviz'),
+        description='Full path to the RVIZ config file to use')
     declare_use_robot_state_pub_cmd = DeclareLaunchArgument(
         'use_robot_state_pub',
         default_value='True',
@@ -51,9 +51,8 @@ def generate_launch_description():
 
     declare_urdf_cmd = DeclareLaunchArgument(
         'urdf_file',
-        default_value=os.path.join(bringup_dir, 'urdf', 'h1.urdf'),#需要修改的地方
-        description='Whether to start RVIZ') 
-
+        default_value=os.path.join(bringup_dir, 'urdf', 'h1.urdf'),  # urdf file name
+        description='Whether to start RVIZ')
 
     start_robot_state_publisher_cmd = Node(
         condition=IfCondition(use_robot_state_pub),
@@ -61,9 +60,9 @@ def generate_launch_description():
         executable='robot_state_publisher',
         name='robot_state_publisher',
         output='screen',
-        #parameters=[{'use_sim_time': use_sim_time}],
+        # parameters=[{'use_sim_time': use_sim_time}],
         arguments=[urdf_file])
-    
+
     start_joint_state_publisher_cmd = Node(
         condition=IfCondition(use_joint_state_pub),
         package='joint_state_publisher_gui',
@@ -71,7 +70,7 @@ def generate_launch_description():
         name='joint_state_publisher_gui',
         output='screen',
         arguments=[urdf_file])
-    
+
     rviz_cmd = Node(
         condition=IfCondition(use_rviz),
         package='rviz2',
@@ -79,7 +78,6 @@ def generate_launch_description():
         name='rviz2',
         arguments=['-d', rviz_config_file],
         output='screen')
-        
 
     # Create the launch description and populate
     ld = LaunchDescription()
@@ -91,10 +89,9 @@ def generate_launch_description():
     ld.add_action(declare_use_joint_state_pub_cmd)
     ld.add_action(declare_use_rviz_cmd)
 
-
     # Add any conditioned actions
     ld.add_action(start_joint_state_publisher_cmd)
     ld.add_action(start_robot_state_publisher_cmd)
     ld.add_action(rviz_cmd)
 
-    return ld   
+    return ld
