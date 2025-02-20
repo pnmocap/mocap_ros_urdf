@@ -3,41 +3,40 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    # 获取 gazebo_ros 包的路径
-    gazebo_ros_share_dir = get_package_share_directory('gazebo_ros')
-    h1_description_share_dir = get_package_share_directory('h1_description')
+    # 获取 ros_gz_sim 包的路径
+    ros_gz_sim_share_dir = get_package_share_directory('ros_gz_sim')
+    unitree_h1_ros2_share_dir = get_package_share_directory('unitree_h1_ros2')
 
     # 定义参数
     paused_arg = DeclareLaunchArgument(
         'paused',
-        default_value='true',
+        default_value='false',
         description='Whether to start the simulation paused'
     )
 
-    # 包含 Gazebo 的 empty_world.launch.py 文件
+    # 包含 Gazebo 的空世界启动文件
     gazebo_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(gazebo_ros_share_dir, 'launch', 'empty_world.launch.py')
+            os.path.join(ros_gz_sim_share_dir, 'launch', 'gz_sim.launch.py')
         ),
         launch_arguments={
-            'paused': LaunchConfiguration('paused')
+            'gz_args': '-r empty.sdf'
         }.items()
     )
 
-    # 启动 spawn_model 节点
+    # 启动 spawn_entity 节点
     spawn_model_node = Node(
-        package='gazebo_ros',
-        executable='spawn_entity.py',
+        package='ros_gz_sim',
+        executable='create',
         name='spawn_model',
         arguments=[
-            '-file', os.path.join(h1_description_share_dir, 'urdf', 'h1.urdf'),
+            '-file', os.path.join(unitree_h1_ros2_share_dir, 'urdf', 'h1.urdf'),
             '-urdf',
             '-z', '1.05',
-            '-model', 'h1_description'
+            '-model', 'unitree_h1_ros2'
         ],
         output='screen'
     )

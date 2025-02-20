@@ -7,6 +7,6 @@
     name="spawn_model"
     pkg="gazebo_ros"
     type="spawn_model"
-    args="-file $(find h1_description)/urdf/h1.urdf -urdf -z 1.05 -model h1_description"
+    args="-file $(find unitree_h1_ros1)/urdf/h1.urdf -urdf -z 1.05 -model unitree_h1_ros1"
     output="screen" />
 </launch>
