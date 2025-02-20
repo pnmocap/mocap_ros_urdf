@@ -1,8 +1,6 @@
 # Introducation
 
-This project contains the URDF files of various open-source robot models. Currently, it supports the robot model of Unitree Technology's H1.
-
-This project is a robot simulation emulator (RViz) that listens to data to drive the model.
+This project is a robot simulation emulator (RViz) node, which is used to listen for data and drive the model. Currently, it supports the H1 robot model from Unitree Technology.
 
 When combined with the project of the data publishing node, it is possible to achieve the function of obtaining data from the motion capture software provided by Noitom Company and driving the robot.
 
@@ -14,7 +12,7 @@ The following figure shows the data flow of each component:
 
   > please contact info@noitom.com
 
-- **mocap_ros_py**: A ROS node program implemented in Python. It obtains data from the motion capture software, and after retargeting, sends the data to the simulator. 
+- **mocap_ros_py**: A ROS node program implemented in Python. It retrieves data from the Noitom Mocap Software. After retargeting, it sends the data to the simulator to drive the robot model. Alternatively, it can directly send the BVH data to drive the TF model(stickman). 
 
   > source code: https://github.com/pnmocap/mocap_ros_py.git
 
@@ -79,3 +77,24 @@ ros2 launch unitree_h1_ros2 display.launch.py
 
  
 
+## Configure the Model (TF or Robot)
+
+- The TF(stickman) is a model mapped according to the real human skeleton. It doesn't require retargeting and can be driven by BVH data. Running this model is usually used to verify the correctness of the original human body data.
+- The robot is a model based on the URDF file (this project currently supports the H1 model of Unitree Technology). The data needs to go through retargeting for driving.
+
+> When actually driving, choose one of the above two models.
+
+### Add Models
+
+After the simulator is launched, click the "Add" button on the left side. In the pop - up dialog box, select "RobotModel" (for the robot model) or "TF" (for the stickman model), as shown in the following figure:
+
+![add_model](img/add_model.jpg)
+
+### Display Models
+
+In the left - hand menu bar of the simulator window, check the "RobotModel" checkbox or the "TF" checkbox. Then, the robot model and the stickman model will be displayed, as shown in the following figure:
+
+![display_model](img/display_model.png)
+
+
+  
