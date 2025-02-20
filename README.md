@@ -8,7 +8,7 @@
 
 下图展示了各个节点的数据流：
 
-![nodes_arch](img\nodes_arch.png)
+![nodes_arch](img/nodes_arch.png)
 
 - **Noitom动捕软件**：Noitom公司提供专业的动捕软件（如Axis Studio，Hybrid Data Server等），负责提供基于真实人体的动捕数据
 
