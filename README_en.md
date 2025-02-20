@@ -8,7 +8,7 @@ When combined with the project of the data publishing node, it is possible to ac
 
 The following figure shows the data flow of each component:
 
-![nodes_arch](img\nodes_arch.png)
+![nodes_arch](img/nodes_arch.png)
 
 - **Noitom Mocap Software**: Noitom Company provides professional motion capture software (such as Axis Studio, Hybrid Data Server, etc.), which is responsible for providing motion capture data based on real human bodies.
 
