@@ -1,4 +1,4 @@
-# Introducation
+# Introduction
 
 This project is a robot simulation emulator (RViz) node, which is used to listen for data and drive the model. Currently, it supports the H1 robot model from Unitree Technology.
 
