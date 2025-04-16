@@ -8,7 +8,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     # get ros_gz_sim package path
     ros_gz_sim_share_dir = get_package_share_directory('ros_gz_sim')
-    unitree_g1_ros2_share_dir = get_package_share_directory('unitree_g1_ros2')
+    unitree_h1_ros2_share_dir = get_package_share_directory('unitree_h1_ros2')
 
     # parameters
     paused_arg = DeclareLaunchArgument(
@@ -33,10 +33,10 @@ def generate_launch_description():
         executable='create',
         name='spawn_model',
         arguments=[
-            '-file', os.path.join(unitree_g1_ros2_share_dir, 'urdf', 'h1.urdf'),
+            '-file', os.path.join(unitree_h1_ros2_share_dir, 'urdf', 'h1.urdf'),
             '-urdf',
             '-z', '1.05',
-            '-model', 'unitree_g1_ros2'
+            '-model', 'unitree_h1_ros2'
         ],
         output='screen'
     )
